@@ -65,17 +65,42 @@
         .badge-verificado svg { width: 16px; height: 16px; margin-right: 6px; }
 
         .grado { font-size: 14px; color: #64748b; font-weight: 500; margin-bottom: 30px; }
-        .datos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px; }
+        .datos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
         .dato-box { background: #f8fafc; padding: 15px; border-radius: 16px; border: 1px solid #f1f5f9; transition: transform 0.2s; }
         .dato-box:hover { transform: translateY(-2px); border-color: #e2e8f0; }
         .dato-box.full-width { grid-column: span 2; }
         .etiqueta { display: block; font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; font-weight: 600; }
-        .valor { font-family: 'Space Grotesk', sans-serif; font-size: 15px; color: #1e293b; font-weight: 700; }
+        .valor { font-family: 'Space Grotesk', sans-serif; font-size: 14px; color: #1e293b; font-weight: 700; }
         .estado-activo { color: #10b981; }
+
+        /* Estilos del QR en la tarjeta */
+        .qr-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed #e2e8f0;
+        }
+        .qr-label {
+            font-size: 11px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .qr-image {
+            width: 120px;
+            height: 120px;
+            padding: 8px;
+            background: white;
+            border: 1px solid #f1f5f9;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
 
         .btn-secundario { 
             background: transparent; color: #64748b; border: 2px solid #e2e8f0; padding: 12px 20px; width: 100%; 
-            border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s ease;
+            border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s ease;
+            margin-top: 25px;
         }
         .btn-secundario:hover { background: #f8fafc; color: #0f172a; border-color: #cbd5e1; }
 
@@ -96,43 +121,35 @@
         </header>
 
         <div class="card" id="tarjeta-perfil">
-            <!-- El contenido se inyecta dinámicamente aquí -->
+            <!-- Contenido dinámico -->
         </div>
     </div>
 
     <script>
-        // URL DE TU GOOGLE APPS SCRIPT
         const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbxyXlXUiZ47U21JegPwGJ5gPwt5c-lARuyOe-Aq-2LGWtMi98SqyLSq4SlfcZZQGuUw/exec';
-        
         const contenedor = document.getElementById('tarjeta-perfil');
 
-        // Función robusta para transformar enlaces de Drive
         function obtenerEnlaceDirectoDrive(url) {
             if (!url) return '';
-            // Extrae cualquier cadena que parezca un ID de Google Drive (25 caracteres o más de letras, números y guiones)
             const match = url.match(/[-\w]{25,}/);
             if (match) {
                 const id = match[0];
-                // Usamos el endpoint de thumbnail con un tamaño grande, es más fiable que export=view
                 return `https://drive.google.com/thumbnail?id=${id}&sz=w1000`;
             }
             return url;
         }
 
-        function renderizarTarjeta(persona) {
+        function renderizarTarjeta(persona, idCodigo) {
             const estadoClase = persona.estado && persona.estado.toLowerCase().includes('activo') ? 'estado-activo' : '';
             const fotoUrlDirecta = obtenerEnlaceDirectoDrive(persona.fotoUrl);
-            
-            // Imagen de respaldo basada en el nombre si la foto falla
             const fotoBackup = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(persona.nombre) + '&background=f8fafc&color=0ea5e9&size=200';
+            
+            // Generar URL del QR que apunta a esta misma página
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(window.location.origin + window.location.pathname + '?id=' + idCodigo)}`;
 
             contenedor.innerHTML = `
                 <div class="foto-container">
-                    <img class="foto" 
-                         src="${fotoUrlDirecta}" 
-                         alt="Foto de Perfil" 
-                         referrerpolicy="no-referrer"
-                         onerror="this.onerror=null; this.src='${fotoBackup}'">
+                    <img class="foto" src="${fotoUrlDirecta}" alt="Foto de Perfil" referrerpolicy="no-referrer" onerror="this.onerror=null; this.src='${fotoBackup}'">
                 </div>
                 
                 <h3 class="nombre">${persona.nombre}</h3>
@@ -161,20 +178,21 @@
                     </div>
                 </div>
 
+                <!-- SECCIÓN DE QR INTEGRADO -->
+                <div class="qr-section">
+                    <p class="qr-label">Código de Verificación Rápida</p>
+                    <img src="${qrUrl}" class="qr-image" alt="QR de Verificación">
+                </div>
+
                 <button class="btn-secundario" onclick="renderizarBuscador()">Validar otra credencial</button>
             `;
         }
 
         function renderizarBuscador() {
-            try {
-                window.history.pushState({}, document.title, window.location.pathname);
-            } catch (e) {
-                console.warn("Navegación bloqueada por el entorno.");
-            }
+            try { window.history.pushState({}, document.title, window.location.pathname); } catch (e) {}
 
             contenedor.innerHTML = `
                 <p class="buscador-instruccion">Ingresa el código único del integrante para validar su identidad en los registros oficiales.</p>
-                
                 <input type="text" id="input-codigo" class="input-buscador" placeholder="EJ: BUEAS" autocomplete="off">
                 <button id="btn-buscar" class="btn-principal">Verificar integrante</button>
             `;
@@ -184,38 +202,22 @@
 
             btnBuscar.addEventListener('click', () => {
                 const codigo = inputCodigo.value.trim().toUpperCase();
-                if(codigo) {
-                    buscarDatos(codigo);
-                }
+                if(codigo) buscarDatos(codigo);
             });
 
-            inputCodigo.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    btnBuscar.click();
-                }
-            });
-            
+            inputCodigo.addEventListener('keypress', (e) => { if (e.key === 'Enter') btnBuscar.click(); });
             setTimeout(() => inputCodigo.focus(), 100);
         }
 
         function buscarDatos(codigo) {
-            contenedor.innerHTML = `
-                <div class="mensaje-sistema">
-                    <div class="spinner"></div>
-                    <p>Conectando con la red y verificando credencial...</p>
-                </div>
-            `;
+            contenedor.innerHTML = `<div class="mensaje-sistema"><div class="spinner"></div><p>Verificando credencial...</p></div>`;
 
             fetch(`${URL_SCRIPT}?id=${codigo}`)
                 .then(respuesta => respuesta.json())
                 .then(resultado => {
                     if (resultado.success) {
-                        try {
-                            window.history.pushState({}, document.title, window.location.pathname + '?id=' + codigo);
-                        } catch (e) {
-                            console.warn("Navegación bloqueada.");
-                        }
-                        renderizarTarjeta(resultado.data);
+                        try { window.history.pushState({}, document.title, window.location.pathname + '?id=' + codigo); } catch (e) {}
+                        renderizarTarjeta(resultado.data, codigo);
                     } else {
                         contenedor.innerHTML = `
                             <div class="mensaje-sistema">
@@ -226,23 +228,13 @@
                     }
                 })
                 .catch(error => {
-                    contenedor.innerHTML = `
-                        <div class="mensaje-sistema">
-                            <h3 style="color:#0f172a; margin-bottom:10px; font-family:'Space Grotesk', sans-serif;">Error de conexión</h3>
-                            <p style="margin-bottom:25px;">No pudimos conectar con la base de datos de la red.</p>
-                            <button class="btn-secundario" onclick="renderizarBuscador()">Volver a intentar</button>
-                        </div>`;
+                    contenedor.innerHTML = `<div class="mensaje-sistema"><h3>Error de conexión</h3><p>No se pudo conectar con la red.</p><button class="btn-secundario" onclick="renderizarBuscador()">Volver a intentar</button></div>`;
                 });
         }
 
         const urlParamsInicio = new URLSearchParams(window.location.search);
         const idInicio = urlParamsInicio.get('id');
-
-        if (idInicio) {
-            buscarDatos(idInicio);
-        } else {
-            renderizarBuscador();
-        }
+        if (idInicio) { buscarDatos(idInicio); } else { renderizarBuscador(); }
     </script>
 </body>
 </html>
