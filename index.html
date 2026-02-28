@@ -10,105 +10,117 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     
     <style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #2563eb;
+            --success: #10b981;
+            --bg-gradient: radial-gradient(circle at top right, #e0f2fe 0%, #f8fafc 40%, #f1f5f9 100%);
+            --glass: rgba(255, 255, 255, 0.85);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        
         body { 
             font-family: 'Inter', sans-serif; 
-            background: radial-gradient(circle at top right, #e0f2fe 0%, #f8fafc 40%, #f1f5f9 100%);
+            background: var(--bg-gradient);
             display: flex; justify-content: center; align-items: center; 
-            min-height: 100vh; padding: 20px; color: #1e293b;
+            min-height: 100vh; padding: 15px; color: var(--text-main);
         }
 
-        .main-container { width: 100%; max-width: 420px; display: flex; flex-direction: column; align-items: center; }
+        .main-container { 
+            width: 100%; 
+            max-width: 380px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
 
-        .app-header { text-align: center; margin-bottom: 30px; animation: fadeInDown 0.6s ease-out; }
+        .app-header { text-align: center; margin-bottom: 20px; animation: fadeInDown 0.6s ease-out; }
         .main-logo { 
-            width: 130px; height: 130px; border-radius: 50%; margin-bottom: 15px; 
-            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.2); border: 4px solid white; 
-            transition: transform 0.3s ease; 
+            width: 90px; height: 90px; border-radius: 50%; margin-bottom: 12px; 
+            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.15); border: 3px solid white; 
         }
-        .main-logo:hover { transform: scale(1.05); }
-        .network-title { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; color: #0f172a; margin-bottom: 5px; letter-spacing: -0.5px; }
-        .page-subtitle { font-family: 'Space Grotesk', sans-serif; font-size: 14px; color: #0ea5e9; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+        .network-title { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; color: var(--text-main); margin-bottom: 2px; }
+        .page-subtitle { font-family: 'Space Grotesk', sans-serif; font-size: 11px; color: var(--primary); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; }
 
         .card { 
-            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 24px; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.05); 
-            text-align: center; width: 100%; padding: 40px 30px; animation: fadeInUp 0.6s ease-out; position: relative; overflow: hidden;
+            background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 28px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06); 
+            text-align: center; width: 100%; padding: 25px 20px; animation: fadeInUp 0.6s ease-out; position: relative; overflow: hidden;
         }
-        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #0ea5e9, #38bdf8, #818cf8); }
+        
+        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, var(--primary), #818cf8); }
 
-        .buscador-instruccion { font-size: 15px; color: #64748b; margin-bottom: 25px; line-height: 1.5; }
+        /* Buscador */
+        .buscador-instruccion { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.4; }
         .input-buscador { 
-            width: 100%; padding: 16px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 14px; 
-            font-size: 20px; margin-bottom: 20px; outline: none; text-align: center; text-transform: uppercase; 
-            font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: #0f172a; letter-spacing: 2px; transition: all 0.3s ease;
+            width: 100%; padding: 14px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 14px; 
+            font-size: 18px; margin-bottom: 15px; outline: none; text-align: center; text-transform: uppercase; 
+            font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--text-main); letter-spacing: 1px; transition: 0.3s;
         }
-        .input-buscador:focus { border-color: #0ea5e9; background: white; box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1); }
+        .input-buscador:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1); }
         .btn-principal { 
-            background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%); color: white; border: none; padding: 16px 20px; 
-            width: 100%; border-radius: 14px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; 
-            font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.5px; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; border: none; padding: 15px; 
+            width: 100%; border-radius: 14px; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.3s; 
+            font-family: 'Space Grotesk', sans-serif; box-shadow: 0 8px 15px rgba(37, 99, 235, 0.2);
         }
-        .btn-principal:hover { transform: translateY(-2px); box-shadow: 0 15px 25px rgba(37, 99, 235, 0.3); }
+        .btn-principal:hover { transform: translateY(-2px); box-shadow: 0 12px 20px rgba(37, 99, 235, 0.3); }
 
-        .foto-container { width: 120px; height: 120px; margin: 0 auto 20px auto; border-radius: 50%; padding: 4px; background: linear-gradient(135deg, #0ea5e9 0%, #818cf8 100%); }
-        .foto { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid white; }
-        .nombre { font-family: 'Space Grotesk', sans-serif; font-size: 24px; color: #0f172a; font-weight: 700; margin-bottom: 6px; }
+        /* Perfil */
+        .foto-container { 
+            width: 100px; height: 100px; margin: 0 auto 15px auto; border-radius: 50%; padding: 3px; 
+            background: linear-gradient(135deg, var(--primary), #818cf8); box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .foto { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid white; }
+        
+        .nombre { font-family: 'Space Grotesk', sans-serif; font-size: 20px; color: var(--text-main); font-weight: 700; margin-bottom: 6px; }
+
+        .badges-wrapper { display: flex; flex-direction: column; align-items: center; gap: 4px; margin-bottom: 15px; }
 
         .badge-verificado {
-            display: inline-flex; align-items: center; justify-content: center;
-            background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 6px 14px;
-            border-radius: 20px; font-size: 13px; font-weight: 700; margin-bottom: 15px;
-            font-family: 'Space Grotesk', sans-serif; letter-spacing: 1px; border: 1px solid rgba(16, 185, 129, 0.2);
+            display: inline-flex; align-items: center; background: rgba(16, 185, 129, 0.1); color: var(--success); 
+            padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: 0.5px; border: 1px solid rgba(16, 185, 129, 0.2);
         }
-        .badge-verificado svg { width: 16px; height: 16px; margin-right: 6px; }
+        .badge-verificado svg { width: 12px; height: 12px; margin-right: 4px; }
 
-        .grado { font-size: 14px; color: #64748b; font-weight: 500; margin-bottom: 30px; }
-        .datos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
-        .dato-box { background: #f8fafc; padding: 15px; border-radius: 16px; border: 1px solid #f1f5f9; transition: transform 0.2s; }
-        .dato-box:hover { transform: translateY(-2px); border-color: #e2e8f0; }
+        .profesional-tag {
+            font-family: 'Space Grotesk', sans-serif; font-size: 10px; color: var(--primary); font-weight: 700; 
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        .grado { font-size: 13px; color: var(--text-muted); font-weight: 500; margin-bottom: 20px; padding: 0 10px; }
+
+        .datos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .dato-box { background: #f8fafc; padding: 12px 8px; border-radius: 12px; border: 1px solid #f1f5f9; }
         .dato-box.full-width { grid-column: span 2; }
-        .etiqueta { display: block; font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; font-weight: 600; }
-        .valor { font-family: 'Space Grotesk', sans-serif; font-size: 14px; color: #1e293b; font-weight: 700; }
-        .estado-activo { color: #10b981; }
+        .etiqueta { display: block; font-size: 9px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; font-weight: 600; }
+        .valor { font-family: 'Space Grotesk', sans-serif; font-size: 13px; color: #334155; font-weight: 700; }
+        .estado-activo { color: var(--success); }
 
-        /* Estilos del QR en la tarjeta */
-        .qr-section {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px dashed #e2e8f0;
-        }
-        .qr-label {
-            font-size: 11px;
-            color: #94a3b8;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-        .qr-image {
-            width: 120px;
-            height: 120px;
-            padding: 8px;
-            background: white;
-            border: 1px solid #f1f5f9;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
-        }
+        /* QR compacto */
+        .qr-section { margin-top: 15px; padding-top: 15px; border-top: 1px dashed #e2e8f0; }
+        .qr-label { font-size: 9px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 10px; }
+        .qr-image { width: 100px; height: 100px; padding: 5px; background: white; border: 1px solid #f1f5f9; border-radius: 10px; }
 
         .btn-secundario { 
-            background: transparent; color: #64748b; border: 2px solid #e2e8f0; padding: 12px 20px; width: 100%; 
-            border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s ease;
-            margin-top: 25px;
+            background: transparent; color: var(--text-muted); border: 1.5px solid #e2e8f0; padding: 10px; width: 100%; 
+            border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-top: 20px;
         }
-        .btn-secundario:hover { background: #f8fafc; color: #0f172a; border-color: #cbd5e1; }
+        .btn-secundario:hover { background: #f8fafc; color: var(--text-main); }
 
-        .mensaje-sistema { padding: 20px 0; color: #64748b; }
-        .spinner { border: 3px solid #f1f5f9; width: 40px; height: 40px; border-radius: 50%; border-left-color: #0ea5e9; animation: spin 1s linear infinite; margin: 0 auto 20px auto; }
+        .spinner { border: 3px solid #f1f5f9; width: 35px; height: 35px; border-radius: 50%; border-left-color: var(--primary); animation: spin 1s linear infinite; margin: 0 auto 15px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 350px) {
+            .card { padding: 20px 15px; }
+            .nombre { font-size: 18px; }
+        }
     </style>
 </head>
 <body>
@@ -116,12 +128,12 @@
     <div class="main-container">
         <header class="app-header">
             <img src="https://assets.poap.xyz/7a0347ca-c7eb-4842-b5f5-b72c364b1fff.png" alt="Logo La Movida de SST" class="main-logo">
-            <h1 class="network-title">La Movida de SST DAO Network</h1>
-            <h2 class="page-subtitle">Verificación de integrante</h2>
+            <h1 class="network-title">La Movida de SST</h1>
+            <h2 class="page-subtitle">DAO Network</h2>
         </header>
 
         <div class="card" id="tarjeta-perfil">
-            <!-- Contenido dinámico -->
+            <!-- Dinámico -->
         </div>
     </div>
 
@@ -142,23 +154,28 @@
         function renderizarTarjeta(persona, idCodigo) {
             const estadoClase = persona.estado && persona.estado.toLowerCase().includes('activo') ? 'estado-activo' : '';
             const fotoUrlDirecta = obtenerEnlaceDirectoDrive(persona.fotoUrl);
-            const fotoBackup = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(persona.nombre) + '&background=f8fafc&color=0ea5e9&size=200';
+            const fotoBackup = `https://ui-avatars.com/api/?name=${encodeURIComponent(persona.nombre)}&background=f8fafc&color=0ea5e9&size=200`;
             
-            // Generar URL del QR que apunta a esta misma página
+            let nombrePais = persona.pais || 'No especificado';
+            if (nombrePais.toLowerCase().includes('venezuela')) nombrePais += ' 🇻🇪';
+            
             const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(window.location.origin + window.location.pathname + '?id=' + idCodigo)}`;
 
             contenedor.innerHTML = `
                 <div class="foto-container">
-                    <img class="foto" src="${fotoUrlDirecta}" alt="Foto de Perfil" referrerpolicy="no-referrer" onerror="this.onerror=null; this.src='${fotoBackup}'">
+                    <img class="foto" src="${fotoUrlDirecta}" alt="Foto" referrerpolicy="no-referrer" onerror="this.onerror=null; this.src='${fotoBackup}'">
                 </div>
                 
                 <h3 class="nombre">${persona.nombre}</h3>
                 
-                <div class="badge-verificado">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    VERIFICADO
+                <div class="badges-wrapper">
+                    <div class="badge-verificado">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        VERIFICADO
+                    </div>
+                    <div class="profesional-tag">Profesional de SST</div>
                 </div>
                 
                 <p class="grado">${persona.grado}</p>
@@ -170,21 +187,20 @@
                     </div>
                     <div class="dato-box">
                         <span class="etiqueta">País</span>
-                        <span class="valor">${persona.pais || 'No especificado'}</span>
+                        <span class="valor">${nombrePais}</span>
                     </div>
                     <div class="dato-box full-width">
-                        <span class="etiqueta">Estatus</span>
+                        <span class="etiqueta">Estatus de Red</span>
                         <span class="valor">${persona.estatus}</span>
                     </div>
                 </div>
 
-                <!-- SECCIÓN DE QR INTEGRADO -->
                 <div class="qr-section">
-                    <p class="qr-label">Código de Verificación Rápida</p>
-                    <img src="${qrUrl}" class="qr-image" alt="QR de Verificación">
+                    <p class="qr-label">Verificación Rápida</p>
+                    <img src="${qrUrl}" class="qr-image" alt="QR">
                 </div>
 
-                <button class="btn-secundario" onclick="renderizarBuscador()">Validar otra credencial</button>
+                <button class="btn-secundario" onclick="renderizarBuscador()">Cerrar sesión / Buscar</button>
             `;
         }
 
@@ -192,8 +208,8 @@
             try { window.history.pushState({}, document.title, window.location.pathname); } catch (e) {}
 
             contenedor.innerHTML = `
-                <p class="buscador-instruccion">Ingresa el código único del integrante para validar su identidad en los registros oficiales.</p>
-                <input type="text" id="input-codigo" class="input-buscador" placeholder="EJ: BUEAS" autocomplete="off">
+                <p class="buscador-instruccion">Ingresa el código único del integrante para validar su identidad oficial.</p>
+                <input type="text" id="input-codigo" class="input-buscador" placeholder="CÓDIGO ID" autocomplete="off">
                 <button id="btn-buscar" class="btn-principal">Verificar integrante</button>
             `;
 
@@ -210,7 +226,7 @@
         }
 
         function buscarDatos(codigo) {
-            contenedor.innerHTML = `<div class="mensaje-sistema"><div class="spinner"></div><p>Verificando credencial...</p></div>`;
+            contenedor.innerHTML = `<div class="mensaje-sistema"><div class="spinner"></div><p>Sincronizando...</p></div>`;
 
             fetch(`${URL_SCRIPT}?id=${codigo}`)
                 .then(respuesta => respuesta.json())
@@ -221,14 +237,14 @@
                     } else {
                         contenedor.innerHTML = `
                             <div class="mensaje-sistema">
-                                <h3 style="color:#0f172a; margin-bottom:10px; font-family:'Space Grotesk', sans-serif;">Registro no encontrado</h3>
-                                <p style="margin-bottom:25px;">${resultado.error}</p>
+                                <h3 style="font-size:16px; margin-bottom:8px;">No encontrado</h3>
+                                <p style="font-size:13px; margin-bottom:20px;">${resultado.error}</p>
                                 <button class="btn-secundario" onclick="renderizarBuscador()">Intentar de nuevo</button>
                             </div>`;
                     }
                 })
                 .catch(error => {
-                    contenedor.innerHTML = `<div class="mensaje-sistema"><h3>Error de conexión</h3><p>No se pudo conectar con la red.</p><button class="btn-secundario" onclick="renderizarBuscador()">Volver a intentar</button></div>`;
+                    contenedor.innerHTML = `<div class="mensaje-sistema"><h3>Error de red</h3><button class="btn-secundario" onclick="renderizarBuscador()">Reintentar</button></div>`;
                 });
         }
 
