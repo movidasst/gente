@@ -46,13 +46,38 @@
         .page-subtitle { font-family: 'Space Grotesk', sans-serif; font-size: 11px; color: var(--primary); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; }
 
         .card { 
-            background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 28px; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.06); 
-            text-align: center; width: 100%; padding: 25px 20px; animation: fadeInUp 0.6s ease-out; position: relative; overflow: hidden;
+            background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 28px; 
+            box-shadow: 0 30px 60px rgba(14, 165, 233, 0.1), inset 0 0 20px rgba(255, 255, 255, 0.5); 
+            text-align: center; width: 100%; padding: 30px 20px; animation: fadeInUp 0.6s ease-out; position: relative; overflow: hidden;
         }
         
-        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, var(--primary), #818cf8); }
+        .card > * { position: relative; z-index: 2; }
+        
+        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, var(--primary), var(--success), #818cf8); z-index: 10; }
+
+        /* Efecto Shimmer (Estado Vivo) */
+        .card::after {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            transform: rotate(30deg) translateY(-100%); animation: shimmer 6s infinite; pointer-events: none; z-index: 1;
+        }
+        @keyframes shimmer { 0% { transform: rotate(30deg) translateY(-100%); } 20% { transform: rotate(30deg) translateY(100%); } 100% { transform: rotate(30deg) translateY(100%); } }
+
+        /* Banner de Éxito */
+        .success-banner {
+            background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px;
+            padding: 10px; margin-bottom: 20px; color: var(--success); font-family: 'Space Grotesk', sans-serif;
+            font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+            text-transform: uppercase; letter-spacing: 0.5px; animation: fadeInDown 0.5s ease-out;
+        }
+        .success-banner svg { width: 14px; height: 14px; margin-right: 6px; }
+
+        /* Timestamp */
+        .timestamp {
+            font-size: 10px; color: #94a3b8; margin-top: 20px; font-family: 'Inter', sans-serif;
+            border-top: 1px dashed #e2e8f0; padding-top: 15px;
+        }
 
         /* Buscador */
         .buscador-instruccion { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.4; }
@@ -71,12 +96,12 @@
 
         /* Perfil */
         .foto-container { 
-            width: 100px; height: 100px; margin: 0 auto 15px auto; border-radius: 50%; padding: 3px; 
+            width: 110px; height: 110px; margin: 0 auto 15px auto; border-radius: 50%; padding: 3px; 
             background: linear-gradient(135deg, var(--primary), #818cf8); box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         .foto { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid white; }
         
-        .nombre { font-family: 'Space Grotesk', sans-serif; font-size: 20px; color: var(--text-main); font-weight: 700; margin-bottom: 6px; }
+        .nombre { font-family: 'Space Grotesk', sans-serif; font-size: 22px; color: var(--text-main); font-weight: 700; margin-bottom: 6px; }
 
         .badges-wrapper { display: flex; flex-direction: column; align-items: center; gap: 4px; margin-bottom: 15px; }
 
@@ -92,23 +117,18 @@
             text-transform: uppercase; letter-spacing: 1px;
         }
 
-        .grado { font-size: 13px; color: var(--text-muted); font-weight: 500; margin-bottom: 20px; padding: 0 10px; }
+        .grado { font-size: 13px; color: var(--text-muted); font-weight: 500; margin-bottom: 25px; padding: 0 10px; }
 
-        .datos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .datos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 5px; }
         .dato-box { background: #f8fafc; padding: 12px 8px; border-radius: 12px; border: 1px solid #f1f5f9; }
         .dato-box.full-width { grid-column: span 2; }
         .etiqueta { display: block; font-size: 9px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; font-weight: 600; }
         .valor { font-family: 'Space Grotesk', sans-serif; font-size: 13px; color: #334155; font-weight: 700; }
         .estado-activo { color: var(--success); }
 
-        /* QR compacto */
-        .qr-section { margin-top: 15px; padding-top: 15px; border-top: 1px dashed #e2e8f0; }
-        .qr-label { font-size: 9px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 10px; }
-        .qr-image { width: 100px; height: 100px; padding: 5px; background: white; border: 1px solid #f1f5f9; border-radius: 10px; }
-
         .btn-secundario { 
-            background: transparent; color: var(--text-muted); border: 1.5px solid #e2e8f0; padding: 10px; width: 100%; 
-            border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-top: 20px;
+            background: transparent; color: var(--text-muted); border: 1.5px solid #e2e8f0; padding: 12px; width: 100%; 
+            border-radius: 14px; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-top: 20px;
         }
         .btn-secundario:hover { background: #f8fafc; color: var(--text-main); }
 
@@ -118,8 +138,8 @@
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
         @media (max-width: 350px) {
-            .card { padding: 20px 15px; }
-            .nombre { font-size: 18px; }
+            .card { padding: 25px 15px; }
+            .nombre { font-size: 19px; }
         }
     </style>
 </head>
@@ -151,7 +171,7 @@
             return url;
         }
 
-        function renderizarTarjeta(persona, idCodigo) {
+        function renderizarTarjeta(persona) {
             const estadoClase = persona.estado && persona.estado.toLowerCase().includes('activo') ? 'estado-activo' : '';
             const fotoUrlDirecta = obtenerEnlaceDirectoDrive(persona.fotoUrl);
             const fotoBackup = `https://ui-avatars.com/api/?name=${encodeURIComponent(persona.nombre)}&background=f8fafc&color=0ea5e9&size=200`;
@@ -159,9 +179,19 @@
             let nombrePais = persona.pais || 'No especificado';
             if (nombrePais.toLowerCase().includes('venezuela')) nombrePais += ' 🇻🇪';
             
-            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(window.location.origin + window.location.pathname + '?id=' + idCodigo)}`;
+            const now = new Date();
+            const fecha = now.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+            const hora = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
 
             contenedor.innerHTML = `
+                <div class="success-banner">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    Autenticidad confirmada por la Red Movida SST DAO
+                </div>
+
                 <div class="foto-container">
                     <img class="foto" src="${fotoUrlDirecta}" alt="Foto" referrerpolicy="no-referrer" onerror="this.onerror=null; this.src='${fotoBackup}'">
                 </div>
@@ -195,12 +225,11 @@
                     </div>
                 </div>
 
-                <div class="qr-section">
-                    <p class="qr-label">Verificación Rápida</p>
-                    <img src="${qrUrl}" class="qr-image" alt="QR">
-                </div>
+                <button class="btn-secundario" onclick="renderizarBuscador()">Validar otra credencial</button>
 
-                <button class="btn-secundario" onclick="renderizarBuscador()">Cerrar sesión / Buscar</button>
+                <div class="timestamp">
+                    Consulta realizada el ${fecha} a las ${hora}
+                </div>
             `;
         }
 
@@ -208,7 +237,7 @@
             try { window.history.pushState({}, document.title, window.location.pathname); } catch (e) {}
 
             contenedor.innerHTML = `
-                <p class="buscador-instruccion">Ingresa el código único del integrante para validar su identidad oficial.</p>
+                <p class="buscador-instruccion">Ingresa el Código de Verificación del integrante para validar su identidad oficial.</p>
                 <input type="text" id="input-codigo" class="input-buscador" placeholder="CÓDIGO ID" autocomplete="off">
                 <button id="btn-buscar" class="btn-principal">Verificar integrante</button>
             `;
@@ -233,7 +262,7 @@
                 .then(resultado => {
                     if (resultado.success) {
                         try { window.history.pushState({}, document.title, window.location.pathname + '?id=' + codigo); } catch (e) {}
-                        renderizarTarjeta(resultado.data, codigo);
+                        renderizarTarjeta(resultado.data);
                     } else {
                         contenedor.innerHTML = `
                             <div class="mensaje-sistema">
