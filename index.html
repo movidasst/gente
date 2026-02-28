@@ -54,7 +54,10 @@
         
         .card > * { position: relative; z-index: 2; }
         
-        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, var(--primary), var(--success), #818cf8); z-index: 10; }
+        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, var(--primary), var(--success), #818cf8); z-index: 10; transition: background 0.3s ease; }
+
+        /* Estilo para Inactivo */
+        .card.inactivo::before { background: linear-gradient(90deg, #ef4444, #f97316, #fca5a5); }
 
         /* Efecto Shimmer (Estado Vivo) */
         .card::after {
@@ -72,6 +75,15 @@
             text-transform: uppercase; letter-spacing: 0.5px; animation: fadeInDown 0.5s ease-out;
         }
         .success-banner svg { width: 14px; height: 14px; margin-right: 6px; }
+
+        /* Banner de Atención (Inactivo) */
+        .warning-banner {
+            background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px;
+            padding: 10px; margin-bottom: 20px; color: #ef4444; font-family: 'Space Grotesk', sans-serif;
+            font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+            text-transform: uppercase; letter-spacing: 0.5px; animation: fadeInDown 0.5s ease-out;
+        }
+        .warning-banner svg { width: 14px; height: 14px; margin-right: 6px; }
 
         /* Timestamp */
         .timestamp {
@@ -125,6 +137,7 @@
         .etiqueta { display: block; font-size: 9px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; font-weight: 600; }
         .valor { font-family: 'Space Grotesk', sans-serif; font-size: 13px; color: #334155; font-weight: 700; }
         .estado-activo { color: var(--success); }
+        .estado-inactivo { color: #ef4444; }
 
         .btn-secundario { 
             background: transparent; color: var(--text-muted); border: 1.5px solid #e2e8f0; padding: 12px; width: 100%; 
@@ -173,6 +186,8 @@
 
         function renderizarTarjeta(persona) {
             const estadoClase = persona.estado && persona.estado.toLowerCase().includes('activo') ? 'estado-activo' : '';
+            const esInactivo = persona.estatus && persona.estatus.toLowerCase().includes('inactivo');
+            const estatusClase = esInactivo ? 'estado-inactivo' : '';
             const fotoUrlDirecta = obtenerEnlaceDirectoDrive(persona.fotoUrl);
             const fotoBackup = `https://ui-avatars.com/api/?name=${encodeURIComponent(persona.nombre)}&background=f8fafc&color=0ea5e9&size=200`;
             
@@ -183,7 +198,23 @@
             const fecha = now.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
             const hora = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
 
-            contenedor.innerHTML = `
+            // Añadir clase 'inactivo' a la tarjeta si el estatus es inactivo
+            if (esInactivo) {
+                contenedor.classList.add('inactivo');
+            } else {
+                contenedor.classList.remove('inactivo');
+            }
+
+            const bannerHtml = esInactivo ? `
+                <div class="warning-banner">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    Atención: Integrante Inactivo
+                </div>
+            ` : `
                 <div class="success-banner">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
@@ -191,6 +222,10 @@
                     </svg>
                     Autenticidad confirmada por la Red Movida SST DAO
                 </div>
+            `;
+
+            contenedor.innerHTML = `
+                ${bannerHtml}
 
                 <div class="foto-container">
                     <img class="foto" src="${fotoUrlDirecta}" alt="Foto" referrerpolicy="no-referrer" onerror="this.onerror=null; this.src='${fotoBackup}'">
@@ -221,7 +256,7 @@
                     </div>
                     <div class="dato-box full-width">
                         <span class="etiqueta">Estatus de Red</span>
-                        <span class="valor">${persona.estatus}</span>
+                        <span class="valor ${estatusClase}">${persona.estatus}</span>
                     </div>
                 </div>
 
@@ -235,6 +270,9 @@
 
         function renderizarBuscador() {
             try { window.history.pushState({}, document.title, window.location.pathname); } catch (e) {}
+
+            // Asegurarnos de remover la clase 'inactivo' al volver al buscador
+            contenedor.classList.remove('inactivo');
 
             contenedor.innerHTML = `
                 <p class="buscador-instruccion">Ingresa el Código de Verificación del integrante para validar su identidad oficial.</p>
