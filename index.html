@@ -46,7 +46,12 @@
         .page-subtitle { font-family: 'Space Grotesk', sans-serif; font-size: 11px; color: var(--primary); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; }
 
         .card { 
-            background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            background-color: rgba(255, 255, 255, 0.75);
+            /* Trama Guilloché (Billetes/Certificados) con máscara de degradado radial */
+            background-image: 
+                radial-gradient(circle at center, rgba(255,255,255,0.95) 15%, rgba(255,255,255,0.2) 100%),
+                url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20 Q 10 0, 20 20 T 40 20 M0 20 Q 10 40, 20 20 T 40 20' fill='none' stroke='%230ea5e9' stroke-width='0.6' stroke-opacity='0.25' /%3E%3Cpath d='M20 0 Q 40 10, 20 20 T 20 40 M20 0 Q 0 10, 20 20 T 20 40' fill='none' stroke='%230ea5e9' stroke-width='0.6' stroke-opacity='0.25' /%3E%3C/svg%3E");
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 28px; 
             box-shadow: 0 30px 60px rgba(14, 165, 233, 0.1), inset 0 0 20px rgba(255, 255, 255, 0.5); 
             text-align: center; width: 100%; padding: 30px 20px; animation: fadeInUp 0.6s ease-out; position: relative; overflow: hidden;
@@ -56,8 +61,24 @@
         
         .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, var(--primary), var(--success), #818cf8); z-index: 10; transition: background 0.3s ease; }
 
-        /* Estilo para Inactivo */
+        /* Estilo para Inactivo (La trama también se vuelve roja) */
+        .card.inactivo {
+            background-image: 
+                radial-gradient(circle at center, rgba(255,255,255,0.95) 15%, rgba(255,255,255,0.2) 100%),
+                url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20 Q 10 0, 20 20 T 40 20 M0 20 Q 10 40, 20 20 T 40 20' fill='none' stroke='%23ef4444' stroke-width='0.6' stroke-opacity='0.2' /%3E%3Cpath d='M20 0 Q 40 10, 20 20 T 20 40 M20 0 Q 0 10, 20 20 T 20 40' fill='none' stroke='%23ef4444' stroke-width='0.6' stroke-opacity='0.2' /%3E%3C/svg%3E");
+        }
         .card.inactivo::before { background: linear-gradient(90deg, #ef4444, #f97316, #fca5a5); }
+
+        /* Título de Validez Oficial */
+        .official-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 10px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
 
         /* Efecto Shimmer (Estado Vivo) */
         .card::after {
@@ -150,6 +171,17 @@
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* --- NUEVOS ESTILOS DEL FOOTER GLOBAL --- */
+        .app-footer { margin-top: 25px; text-align: center; width: 100%; animation: fadeInUp 0.8s ease-out; padding: 0 10px; }
+        .btn-registro { display: inline-block; background: rgba(255, 255, 255, 0.6); border: 1.5px solid rgba(255, 255, 255, 0.9); padding: 12px 20px; border-radius: 12px; color: var(--primary-dark); font-weight: 700; text-decoration: none; font-size: 13px; font-family: 'Space Grotesk', sans-serif; transition: all 0.3s ease; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .btn-registro:hover { background: white; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
+        .footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px 20px; margin-bottom: 15px; }
+        .footer-links a { color: var(--text-main); text-decoration: none; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--primary); }
+        .contacto-oficial { font-size: 11px; color: var(--text-muted); line-height: 1.8; margin-bottom: 20px; }
+        .contacto-oficial a { color: var(--primary-dark); text-decoration: none; font-weight: 600; display: inline-block; }
+        .contacto-oficial a:hover { text-decoration: underline; }
+
         @media (max-width: 350px) {
             .card { padding: 25px 15px; }
             .nombre { font-size: 19px; }
@@ -168,6 +200,28 @@
         <div class="card" id="tarjeta-perfil">
             <!-- Dinámico -->
         </div>
+
+        <!-- FOOTER GLOBAL DE ENLACES -->
+        <footer class="app-footer">
+            <a href="https://portal.movidasst.com" target="_blank" class="btn-registro">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;margin-top:-2px;">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="8.5" cy="7" r="4"></circle>
+                    <line x1="20" y1="8" x2="20" y2="14"></line>
+                    <line x1="23" y1="11" x2="17" y2="11"></line>
+                </svg>
+                Registro de integrante
+            </a>
+            <div class="footer-links">
+                <a href="https://www.movidasst.com" target="_blank">🌐 www.movidasst.com</a>
+                <a href="https://whatsapp.com/channel/0029Va0mlH5Jf05mrcCz8r3e" target="_blank">🟢 Canal Oficial</a>
+            </div>
+            <div class="contacto-oficial">
+                Contacto Oficial Movida SST<br>
+                <a href="https://wa.me/56968615650" target="_blank">📞 David Linares Brea (+56 9 6861 5650)</a><br>
+                <a href="mailto:movidasst@gmail.com">✉️ movidasst@gmail.com</a>
+            </div>
+        </footer>
     </div>
 
     <script>
@@ -220,12 +274,14 @@
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                         <polyline points="22 4 12 14.01 9 11.01"></polyline>
                     </svg>
-                    Autenticidad confirmada por la Red Movida SST DAO
+                    Autenticidad confirmada por la Red Movida SST DAO Network
                 </div>
             `;
 
             contenedor.innerHTML = `
                 ${bannerHtml}
+                
+                <div class="official-title">Certificado de Identidad Oficial</div>
 
                 <div class="foto-container">
                     <img class="foto" src="${fotoUrlDirecta}" alt="Foto" referrerpolicy="no-referrer" onerror="this.onerror=null; this.src='${fotoBackup}'">
