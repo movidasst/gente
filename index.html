@@ -3,30 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Credencial - La Movida de SST DAO Network</title>
+    <title>Credencial - La Movida de SST</title>
     
+    <!-- Importación de la Tipografía Oficial 'Outfit' -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --primary: #0ea5e9;
-            --primary-dark: #2563eb;
-            --success: #10b981;
-            --bg-gradient: radial-gradient(circle at top right, #e0f2fe 0%, #f8fafc 40%, #f1f5f9 100%);
-            --glass: rgba(255, 255, 255, 0.85);
-            --text-main: #0f172a;
+            /* Colores Oficiales de la Marca */
+            --brand-teal: #007b85;
+            --brand-dark: #00205b;
+            --brand-green: #70ad47;
+            --brand-yellow: #ffb600;
+            
+            /* Colores Neutros y Estructura */
+            --bg-color: #f8fafc;
+            --card-bg: rgba(255, 255, 255, 0.90);
+            --border-subtle: rgba(226, 232, 240, 0.6);
+            --text-main: #00205b;
+            --text-body: #475569;
             --text-muted: #64748b;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+        }
         
         body { 
-            font-family: 'Inter', sans-serif; 
-            background: var(--bg-gradient);
-            display: flex; justify-content: center; align-items: center; 
-            min-height: 100vh; padding: 15px; color: var(--text-main);
+            font-family: 'Outfit', sans-serif; 
+            background-color: var(--bg-color);
+            /* Tech Grid: Cuadrícula sutil del 2% de opacidad */
+            background-image: 
+                linear-gradient(rgba(0, 123, 133, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 123, 133, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            padding: 15px; 
+            color: var(--text-body);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Luces de Fondo (Ambience Glows) */
+        .glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.07;
+            animation: pulse-glow 8s infinite ease-in-out;
+        }
+        .glow-1 {
+            width: 350px;
+            height: 350px;
+            background: var(--brand-teal);
+            top: 10%;
+            right: -100px;
+        }
+        .glow-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--brand-yellow);
+            bottom: 10%;
+            left: -100px;
+            animation-delay: -4s;
         }
 
         .main-container { 
@@ -35,173 +83,431 @@
             display: flex; 
             flex-direction: column; 
             align-items: center; 
+            position: relative;
+            z-index: 10;
         }
 
-        .app-header { text-align: center; margin-bottom: 20px; animation: fadeInDown 0.6s ease-out; }
+        .app-header { 
+            text-align: center; 
+            margin-bottom: 24px; 
+            animation: fadeInDown 0.6s ease-out; 
+        }
+        
+        /* Animación Float en el Logo Principal */
         .main-logo { 
-            width: 90px; height: 90px; border-radius: 50%; margin-bottom: 12px; 
-            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.15); border: 3px solid white; 
+            width: 90px; 
+            height: 90px; 
+            border-radius: 50%; 
+            margin-bottom: 14px; 
+            box-shadow: 0 8px 25px rgba(0, 123, 133, 0.15); 
+            border: 3px solid white; 
+            animation: float 4s ease-in-out infinite;
         }
-        .network-title { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; color: var(--text-main); margin-bottom: 2px; }
-        .page-subtitle { font-family: 'Space Grotesk', sans-serif; font-size: 11px; color: var(--primary); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; }
+        
+        .network-title { 
+            font-size: 24px; 
+            font-weight: 800; /* ExtraBold */
+            color: var(--brand-dark); 
+            margin-bottom: 4px; 
+            letter-spacing: -0.5px;
+        }
+        
+        .page-subtitle { 
+            font-size: 13px; 
+            color: var(--brand-teal); 
+            font-style: italic; 
+            letter-spacing: 0.2px; 
+            font-weight: 500; /* Medium */
+            opacity: 0.95;
+        }
 
+        /* Glassmorphism Premium */
         .card { 
-            background-color: rgba(255, 255, 255, 0.75);
-            /* Trama Guilloché (Billetes/Certificados) con máscara de degradado radial */
-            background-image: 
-                radial-gradient(circle at center, rgba(255,255,255,0.95) 15%, rgba(255,255,255,0.2) 100%),
-                url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20 Q 10 0, 20 20 T 40 20 M0 20 Q 10 40, 20 20 T 40 20' fill='none' stroke='%230ea5e9' stroke-width='0.6' stroke-opacity='0.25' /%3E%3Cpath d='M20 0 Q 40 10, 20 20 T 20 40 M20 0 Q 0 10, 20 20 T 20 40' fill='none' stroke='%230ea5e9' stroke-width='0.6' stroke-opacity='0.25' /%3E%3C/svg%3E");
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 28px; 
-            box-shadow: 0 30px 60px rgba(14, 165, 233, 0.1), inset 0 0 20px rgba(255, 255, 255, 0.5); 
-            text-align: center; width: 100%; padding: 30px 20px; animation: fadeInUp 0.6s ease-out; position: relative; overflow: hidden;
+            background-color: var(--card-bg);
+            backdrop-filter: blur(16px); 
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-subtle); 
+            border-radius: 24px; /* 1.5rem o 24px */
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03); 
+            text-align: center; 
+            width: 100%; 
+            padding: 30px 20px; 
+            animation: fadeInUp 0.6s ease-out; 
+            position: relative; 
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
         }
         
-        .card > * { position: relative; z-index: 2; }
+        .card > * { 
+            position: relative; 
+            z-index: 2; 
+        }
         
-        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, var(--primary), var(--success), #818cf8); z-index: 10; transition: background 0.3s ease; }
-
-        /* Estilo para Inactivo (La trama también se vuelve roja) */
-        .card.inactivo {
-            background-image: 
-                radial-gradient(circle at center, rgba(255,255,255,0.95) 15%, rgba(255,255,255,0.2) 100%),
-                url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20 Q 10 0, 20 20 T 40 20 M0 20 Q 10 40, 20 20 T 40 20' fill='none' stroke='%23ef4444' stroke-width='0.6' stroke-opacity='0.2' /%3E%3Cpath d='M20 0 Q 40 10, 20 20 T 20 40 M20 0 Q 0 10, 20 20 T 20 40' fill='none' stroke='%23ef4444' stroke-width='0.6' stroke-opacity='0.2' /%3E%3C/svg%3E");
-        }
-        .card.inactivo::before { background: linear-gradient(90deg, #ef4444, #f97316, #fca5a5); }
-
-        /* Título de Validez Oficial */
-        .official-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 10px;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 2.5px;
-            margin-bottom: 20px;
-            font-weight: 700;
+        /* Línea Mágica de Borde Superior */
+        .card::before { 
+            content: ''; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            height: 4px; 
+            background: linear-gradient(90deg, var(--brand-dark) 0%, var(--brand-teal) 50%, var(--brand-green) 100%); 
+            z-index: 10; 
+            transition: opacity 0.3s ease; 
         }
 
-        /* Efecto Shimmer (Estado Vivo) */
-        .card::after {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
-            transform: rotate(30deg) translateY(-100%); animation: shimmer 6s infinite; pointer-events: none; z-index: 1;
+        /* Hover Effect: Elevación y Sombra Tintada de Teal */
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 123, 133, 0.12);
         }
-        @keyframes shimmer { 0% { transform: rotate(30deg) translateY(-100%); } 20% { transform: rotate(30deg) translateY(100%); } 100% { transform: rotate(30deg) translateY(100%); } }
+
+        /* Línea Mágica Especial para Modo Inactivo */
+        .card.inactivo::before { 
+            background: linear-gradient(90deg, var(--brand-yellow) 0%, #ef4444 100%); 
+        }
+
+        .official-title { 
+            font-size: 10px; 
+            color: var(--text-muted); 
+            text-transform: uppercase; 
+            letter-spacing: 2.5px; 
+            margin-bottom: 20px; 
+            font-weight: 700; 
+        }
 
         /* Banner de Éxito */
-        .success-banner {
-            background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px;
-            padding: 10px; margin-bottom: 20px; color: var(--success); font-family: 'Space Grotesk', sans-serif;
-            font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center;
-            text-transform: uppercase; letter-spacing: 0.5px; animation: fadeInDown 0.5s ease-out;
+        .success-banner { 
+            background: rgba(112, 173, 71, 0.08); 
+            border: 1px solid rgba(112, 173, 71, 0.25); 
+            border-radius: 12px; 
+            padding: 10px; 
+            margin-bottom: 20px; 
+            color: var(--brand-green); 
+            font-size: 11px; 
+            font-weight: 700; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            text-transform: uppercase; 
+            letter-spacing: 0.5px; 
+            animation: fadeInDown 0.5s ease-out;
         }
         .success-banner svg { width: 14px; height: 14px; margin-right: 6px; }
 
         /* Banner de Atención (Inactivo) */
-        .warning-banner {
-            background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px;
-            padding: 10px; margin-bottom: 20px; color: #ef4444; font-family: 'Space Grotesk', sans-serif;
-            font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center;
-            text-transform: uppercase; letter-spacing: 0.5px; animation: fadeInDown 0.5s ease-out;
+        .warning-banner { 
+            background: rgba(255, 182, 0, 0.08); 
+            border: 1px solid rgba(255, 182, 0, 0.25); 
+            border-radius: 12px; 
+            padding: 10px; 
+            margin-bottom: 20px; 
+            color: var(--brand-yellow); 
+            font-size: 11px; 
+            font-weight: 700; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            text-transform: uppercase; 
+            letter-spacing: 0.5px; 
+            animation: fadeInDown 0.5s ease-out;
         }
         .warning-banner svg { width: 14px; height: 14px; margin-right: 6px; }
 
         /* Timestamp */
-        .timestamp {
-            font-size: 10px; color: #94a3b8; margin-top: 20px; font-family: 'Inter', sans-serif;
-            border-top: 1px dashed #e2e8f0; padding-top: 15px;
+        .timestamp { 
+            font-size: 10px; 
+            color: var(--text-muted); 
+            margin-top: 20px; 
+            border-top: 1px dashed #e2e8f0; 
+            padding-top: 15px; 
         }
 
         /* Buscador */
-        .buscador-instruccion { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.4; }
+        .buscador-instruccion { 
+            font-size: 14px; 
+            color: var(--text-body); 
+            margin-bottom: 18px; 
+            line-height: 1.5; 
+        }
+
         .input-buscador { 
-            width: 100%; padding: 14px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 14px; 
-            font-size: 18px; margin-bottom: 15px; outline: none; text-align: center; text-transform: uppercase; 
-            font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--text-main); letter-spacing: 1px; transition: 0.3s;
+            width: 100%; 
+            padding: 14px; 
+            background: #f8fafc; 
+            border: 2px solid #e2e8f0; 
+            border-radius: 14px; 
+            font-size: 18px; 
+            margin-bottom: 15px; 
+            outline: none; 
+            text-align: center; 
+            text-transform: uppercase; 
+            font-weight: 700; 
+            color: var(--brand-dark); 
+            letter-spacing: 1px; 
+            transition: 0.3s;
         }
-        .input-buscador:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1); }
-        .btn-principal { 
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; border: none; padding: 15px; 
-            width: 100%; border-radius: 14px; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.3s; 
-            font-family: 'Space Grotesk', sans-serif; box-shadow: 0 8px 15px rgba(37, 99, 235, 0.2);
+        .input-buscador:focus { 
+            border-color: var(--brand-teal); 
+            background: white; 
+            box-shadow: 0 0 0 4px rgba(0, 123, 133, 0.1); 
         }
-        .btn-principal:hover { transform: translateY(-2px); box-shadow: 0 12px 20px rgba(37, 99, 235, 0.3); }
-
-        /* Perfil */
-        .foto-container { 
-            width: 110px; height: 110px; margin: 0 auto 15px auto; border-radius: 50%; padding: 3px; 
-            background: linear-gradient(135deg, var(--primary), #818cf8); box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        .foto { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid white; }
         
-        .nombre { font-family: 'Space Grotesk', sans-serif; font-size: 22px; color: var(--text-main); font-weight: 700; margin-bottom: 6px; }
+        .btn-principal { 
+            background: linear-gradient(135deg, var(--brand-teal) 0%, var(--brand-dark) 100%); 
+            color: white; 
+            border: none; 
+            padding: 15px; 
+            width: 100%; 
+            border-radius: 14px; 
+            font-size: 15px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            box-shadow: 0 8px 15px rgba(0, 123, 133, 0.2);
+        }
+        .btn-principal:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 12px 20px rgba(0, 123, 133, 0.3); 
+        }
 
-        .badges-wrapper { display: flex; flex-direction: column; align-items: center; gap: 4px; margin-bottom: 15px; }
+        /* Perfil de Integrante */
+        .foto-container { 
+            width: 110px; 
+            height: 110px; 
+            margin: 0 auto 15px auto; 
+            border-radius: 50%; 
+            padding: 3px; 
+            background: linear-gradient(135deg, var(--brand-teal), var(--brand-green)); 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .foto { 
+            width: 100%; 
+            height: 100%; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            border: 2px solid white; 
+        }
+        
+        .nombre { 
+            font-size: 22px; 
+            color: var(--brand-dark); 
+            font-weight: 800; /* ExtraBold */
+            margin-bottom: 6px; 
+            letter-spacing: -0.5px;
+        }
+
+        .badges-wrapper { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 4px; 
+            margin-bottom: 15px; 
+        }
 
         .badge-verificado {
-            display: inline-flex; align-items: center; background: rgba(16, 185, 129, 0.1); color: var(--success); 
-            padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; font-family: 'Space Grotesk', sans-serif;
-            letter-spacing: 0.5px; border: 1px solid rgba(16, 185, 129, 0.2);
+            display: inline-flex; 
+            align-items: center; 
+            background: rgba(112, 173, 71, 0.1); 
+            color: var(--brand-green); 
+            padding: 4px 10px; 
+            border-radius: 20px; 
+            font-size: 11px; 
+            font-weight: 700; 
+            letter-spacing: 0.5px; 
+            border: 1px solid rgba(112, 173, 71, 0.2);
         }
         .badge-verificado svg { width: 12px; height: 12px; margin-right: 4px; }
 
-        .profesional-tag {
-            font-family: 'Space Grotesk', sans-serif; font-size: 10px; color: var(--primary); font-weight: 700; 
-            text-transform: uppercase; letter-spacing: 1px;
+        .profesional-tag { 
+            font-size: 10px; 
+            color: var(--brand-teal); 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
         }
 
-        .grado { font-size: 13px; color: var(--text-muted); font-weight: 500; margin-bottom: 25px; padding: 0 10px; }
+        .grado { 
+            font-size: 13px; 
+            color: var(--text-body); 
+            font-weight: 400; 
+            margin-bottom: 25px; 
+            padding: 0 10px; 
+        }
 
-        .datos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 5px; }
-        .dato-box { background: #f8fafc; padding: 12px 8px; border-radius: 12px; border: 1px solid #f1f5f9; }
-        .dato-box.full-width { grid-column: span 2; }
-        .etiqueta { display: block; font-size: 9px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; font-weight: 600; }
-        .valor { font-family: 'Space Grotesk', sans-serif; font-size: 13px; color: #334155; font-weight: 700; }
-        .estado-activo { color: var(--success); }
+        .datos-grid { 
+            display: grid; 
+            grid-template-columns: 1fr; 
+            gap: 10px; 
+            margin-bottom: 5px; 
+        }
+        .dato-box { 
+            background: #f8fafc; 
+            padding: 12px 15px; 
+            border-radius: 12px; 
+            border: 1px solid #f1f5f9; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+        }
+        .etiqueta { 
+            font-size: 10px; 
+            color: var(--text-muted); 
+            text-transform: uppercase; 
+            letter-spacing: 0.8px; 
+            font-weight: 700; 
+        }
+        .valor { 
+            font-size: 13px; 
+            color: var(--brand-dark); 
+            font-weight: 700; 
+            text-align: right; 
+        }
+        .estado-activo { color: var(--brand-green); }
         .estado-inactivo { color: #ef4444; }
 
         .btn-secundario { 
-            background: transparent; color: var(--text-muted); border: 1.5px solid #e2e8f0; padding: 12px; width: 100%; 
-            border-radius: 14px; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-top: 20px;
+            background: transparent; 
+            color: var(--text-muted); 
+            border: 1.5px solid #e2e8f0; 
+            padding: 12px; 
+            width: 100%; 
+            border-radius: 14px; 
+            font-size: 13px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            margin-top: 20px;
         }
-        .btn-secundario:hover { background: #f8fafc; color: var(--text-main); }
+        .btn-secundario:hover { 
+            background: #f8fafc; 
+            color: var(--brand-dark); 
+        }
 
-        .spinner { border: 3px solid #f1f5f9; width: 35px; height: 35px; border-radius: 50%; border-left-color: var(--primary); animation: spin 1s linear infinite; margin: 0 auto 15px auto; }
+        .spinner { 
+            border: 3px solid #f1f5f9; 
+            width: 35px; 
+            height: 35px; 
+            border-radius: 50%; 
+            border-left-color: var(--brand-teal); 
+            animation: spin 1s linear infinite; 
+            margin: 0 auto 15px auto; 
+        }
+        
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- NUEVOS ESTILOS DEL FOOTER GLOBAL --- */
-        .app-footer { margin-top: 25px; text-align: center; width: 100%; animation: fadeInUp 0.8s ease-out; padding: 0 10px; }
-        .btn-registro { display: inline-block; background: rgba(255, 255, 255, 0.6); border: 1.5px solid rgba(255, 255, 255, 0.9); padding: 12px 20px; border-radius: 12px; color: var(--primary-dark); font-weight: 700; text-decoration: none; font-size: 13px; font-family: 'Space Grotesk', sans-serif; transition: all 0.3s ease; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .btn-registro:hover { background: white; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
-        .footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px 20px; margin-bottom: 15px; }
-        .footer-links a { color: var(--text-main); text-decoration: none; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; transition: color 0.3s; }
-        .footer-links a:hover { color: var(--primary); }
-        .contacto-oficial { font-size: 11px; color: var(--text-muted); line-height: 1.8; margin-bottom: 20px; }
-        .contacto-oficial a { color: var(--primary-dark); text-decoration: none; font-weight: 600; display: inline-block; }
-        .contacto-oficial a:hover { text-decoration: underline; }
-
-        @media (max-width: 350px) {
-            .card { padding: 25px 15px; }
-            .nombre { font-size: 19px; }
+        
+        /* Animaciones del Sistema de Diseño */
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.05; transform: scale(1); }
+            50% { opacity: 0.12; transform: scale(1.15); }
         }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .error-container { 
+            text-align: left; 
+            background: rgba(239, 68, 68, 0.05); 
+            border: 1px dashed rgba(239, 68, 68, 0.3); 
+            border-radius: 10px; 
+            padding: 10px; 
+            font-family: monospace; 
+            font-size: 11px; 
+            color: #b91c1c; 
+            margin-top: 15px; 
+            white-space: pre-wrap; 
+            word-break: break-all; 
+            max-height: 150px; 
+            overflow-y: auto; 
+        }
+
+        /* Footer con Ajustes de Estilo */
+        .app-footer { 
+            margin-top: 25px; 
+            text-align: center; 
+            width: 100%; 
+            animation: fadeInUp 0.8s ease-out; 
+            padding: 0 10px; 
+        }
+        .btn-registro { 
+            display: inline-block; 
+            background: rgba(255, 255, 255, 0.6); 
+            border: 1.5px solid rgba(255, 255, 255, 0.9); 
+            padding: 12px 20px; 
+            border-radius: 12px; 
+            color: var(--brand-dark); 
+            font-weight: 700; 
+            text-decoration: none; 
+            font-size: 13px; 
+            transition: all 0.3s ease; 
+            margin-bottom: 20px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+        }
+        .btn-registro:hover { 
+            background: white; 
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1); 
+        }
+        .footer-links { 
+            display: flex; 
+            justify-content: center; 
+            flex-wrap: wrap; 
+            gap: 15px 20px; 
+            margin-bottom: 15px; 
+        }
+        .footer-links a { 
+            color: var(--brand-dark); 
+            text-decoration: none; 
+            font-size: 12px; 
+            font-weight: 700; 
+            display: flex; 
+            align-items: center; 
+            gap: 6px; 
+            transition: color 0.3s; 
+        }
+        .footer-links a:hover { 
+            color: var(--brand-teal); 
+        }
+        .contacto-oficial { 
+            font-size: 11px; 
+            color: var(--text-muted); 
+            line-height: 1.8; 
+            margin-bottom: 20px; 
+        }
+        .contacto-oficial a { 
+            color: var(--brand-dark); 
+            text-decoration: none; 
+            font-weight: 700; 
+            display: inline-block; 
+        }
+        .contacto-oficial a:hover { 
+            text-decoration: underline; 
+            color: var(--brand-teal);
+        }
+
+        @media (max-width: 350px) { .card { padding: 25px 15px; } .nombre { font-size: 19px; } }
     </style>
 </head>
 <body>
+
+    <!-- Capas Ambientales Glow (Diseño del Sistema) -->
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
 
     <div class="main-container">
         <header class="app-header">
             <img src="https://assets.poap.xyz/cec12a20-fefb-4199-9cc0-b1ece87fe44d.png" alt="Logo La Movida de SST" class="main-logo">
             <h1 class="network-title">La Movida de SST</h1>
-            <h2 class="page-subtitle">DAO Network</h2>
+            <h2 class="page-subtitle">"De la Reacción a la Prevención"</h2>
         </header>
 
         <div class="card" id="tarjeta-perfil">
-            <!-- Dinámico -->
+            <!-- El contenido dinámico se inyectará aquí -->
         </div>
 
-        <!-- FOOTER GLOBAL DE ENLACES -->
         <footer class="app-footer">
             <a href="https://portal.movidasst.com" target="_blank" class="btn-registro">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;margin-top:-2px;">
@@ -225,34 +531,30 @@
     </div>
 
     <script>
-        const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbxyXlXUiZ47U21JegPwGJ5gPwt5c-lARuyOe-Aq-2LGWtMi98SqyLSq4SlfcZZQGuUw/exec';
+        // Endpoint seguro del Apps Script de Google (Versión 6.4 de producción)
+        const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbyBZy1s9na6iuq9c-wuXMzmy0sUiAdurY8ZqeYwiqs4rNq7tEFHC1dtekkxmsJOtQ1f5g/exec';
         const contenedor = document.getElementById('tarjeta-perfil');
 
         function obtenerEnlaceDirectoDrive(url) {
             if (!url) return '';
             const match = url.match(/[-\w]{25,}/);
             if (match) {
-                const id = match[0];
+                const id = match; // Extrae el ID único del archivo correctamente
                 return `https://drive.google.com/thumbnail?id=${id}&sz=w1000`;
             }
             return url;
         }
 
         function renderizarTarjeta(persona) {
-            const estadoClase = persona.estado && persona.estado.toLowerCase().includes('activo') ? 'estado-activo' : '';
             const esInactivo = persona.estatus && persona.estatus.toLowerCase().includes('inactivo');
-            const estatusClase = esInactivo ? 'estado-inactivo' : '';
+            const estatusClase = esInactivo ? 'estado-inactivo' : 'estado-activo';
             const fotoUrlDirecta = obtenerEnlaceDirectoDrive(persona.fotoUrl);
-            const fotoBackup = `https://ui-avatars.com/api/?name=${encodeURIComponent(persona.nombre)}&background=f8fafc&color=0ea5e9&size=200`;
-            
-            let nombrePais = persona.pais || 'No especificado';
-            if (nombrePais.toLowerCase().includes('venezuela')) nombrePais += ' 🇻🇪';
+            const fotoBackup = `https://ui-avatars.com/api/?name=${encodeURIComponent(persona.nombre)}&background=f8fafc&color=007b85&size=200`;
             
             const now = new Date();
             const fecha = now.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
             const hora = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
 
-            // Añadir clase 'inactivo' a la tarjeta si el estatus es inactivo
             if (esInactivo) {
                 contenedor.classList.add('inactivo');
             } else {
@@ -274,7 +576,7 @@
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                         <polyline points="22 4 12 14.01 9 11.01"></polyline>
                     </svg>
-                    Autenticidad confirmada por la Red Movida SST DAO Network
+                    Autenticidad confirmada
                 </div>
             `;
 
@@ -299,20 +601,24 @@
                     <div class="profesional-tag">Profesional de SST</div>
                 </div>
                 
-                <p class="grado">${persona.grado}</p>
+                <p class="grado">${persona.grado || 'Grado académico no especificado'}</p>
                 
                 <div class="datos-grid">
                     <div class="dato-box">
-                        <span class="etiqueta">Estado</span>
-                        <span class="valor ${estadoClase}">${persona.estado}</span>
+                        <span class="etiqueta">Ubicación</span>
+                        <span class="valor">${persona.ubicacion || 'No especificada'}</span>
                     </div>
                     <div class="dato-box">
-                        <span class="etiqueta">País</span>
-                        <span class="valor">${nombrePais}</span>
-                    </div>
-                    <div class="dato-box full-width">
                         <span class="etiqueta">Estatus de Red</span>
-                        <span class="valor ${estatusClase}">${persona.estatus}</span>
+                        <span class="valor ${estatusClase}">${persona.estatus || 'N/A'}</span>
+                    </div>
+                    <div class="dato-box">
+                        <span class="etiqueta">Correo de Registro</span>
+                        <span class="valor" style="word-break: break-all; font-size: 11.5px; font-weight: 700; max-width: 220px; color: var(--brand-dark);">${persona.correo || 'No disponible'}</span>
+                    </div>
+                    <div class="dato-box">
+                        <span class="etiqueta">Fecha de Afiliación</span>
+                        <span class="valor">${persona.fechaRegistro || 'No disponible'}</span>
                     </div>
                 </div>
 
@@ -326,13 +632,12 @@
 
         function renderizarBuscador() {
             try { window.history.pushState({}, document.title, window.location.pathname); } catch (e) {}
-
-            // Asegurarnos de remover la clase 'inactivo' al volver al buscador
             contenedor.classList.remove('inactivo');
 
             contenedor.innerHTML = `
-                <p class="buscador-instruccion">Ingresa el Código de Verificación del integrante para validar su identidad oficial.</p>
-                <input type="text" id="input-codigo" class="input-buscador" placeholder="CÓDIGO ID" autocomplete="off">
+                <p class="buscador-instruccion">Valida credenciales en tiempo real conectándote a la red de La Movida de SST.</p>
+
+                <input type="text" id="input-codigo" class="input-buscador" placeholder="CÓDIGO DE INTEGRANTE" autocomplete="off">
                 <button id="btn-buscar" class="btn-principal">Verificar integrante</button>
             `;
 
@@ -349,25 +654,61 @@
         }
 
         function buscarDatos(codigo) {
-            contenedor.innerHTML = `<div class="mensaje-sistema"><div class="spinner"></div><p>Sincronizando...</p></div>`;
+            contenedor.innerHTML = `<div class="mensaje-sistema"><div class="spinner"></div><p>Sincronizando con la red...</p></div>`;
 
-            fetch(`${URL_SCRIPT}?id=${codigo}`)
-                .then(respuesta => respuesta.json())
-                .then(resultado => {
-                    if (resultado.success) {
+            // Consulta en tiempo real de producción al Google Apps Script
+            const urlFinal = `${URL_SCRIPT}?action=verify&verificationCode=${encodeURIComponent(codigo)}&_t=${Date.now()}`;
+
+            fetch(urlFinal)
+                .then(respuesta => {
+                    if (!respuesta.ok) throw new Error(`HTTP Error: ${respuesta.status}`);
+                    return respuesta.text();
+                })
+                .then(texto => {
+                    let resultado;
+                    try {
+                        resultado = JSON.parse(texto);
+                    } catch (e) {
+                        if (texto.trim().startsWith("<!DOCTYPE html")) {
+                            throw new Error("Permisos denegados en Google Sheets. Revisa que el script esté publicado para 'Cualquiera' (Anyone).");
+                        } else {
+                            throw new Error("Respuesta inválida del servidor de datos.");
+                        }
+                    }
+
+                    if (resultado.status === "success") {
                         try { window.history.pushState({}, document.title, window.location.pathname + '?id=' + codigo); } catch (e) {}
-                        renderizarTarjeta(resultado.data);
+                        
+                        const p = resultado.data;
+
+                        const personaAdaptada = {
+                            nombre: p.nombre,
+                            grado: p.grado || '', 
+                            ubicacion: p.estado || 'No especificado',
+                            estatus: p.status || 'Activo',
+                            fotoUrl: p.fotoUrl || '',
+                            correo: p.correo || 'No registrado',
+                            fechaRegistro: p.fechaRegistro || 'No registrada'
+                        };
+                        
+                        renderizarTarjeta(personaAdaptada);
                     } else {
                         contenedor.innerHTML = `
                             <div class="mensaje-sistema">
-                                <h3 style="font-size:16px; margin-bottom:8px;">No encontrado</h3>
-                                <p style="font-size:13px; margin-bottom:20px;">${resultado.error}</p>
+                                <h3 style="font-size:16px; margin-bottom:8px; color:#ef4444;">No registrado</h3>
+                                <p style="font-size:13px; margin-bottom:20px;">${resultado.message || 'Código de verificación no encontrado en la base de datos.'}</p>
                                 <button class="btn-secundario" onclick="renderizarBuscador()">Intentar de nuevo</button>
                             </div>`;
                     }
                 })
                 .catch(error => {
-                    contenedor.innerHTML = `<div class="mensaje-sistema"><h3>Error de red</h3><button class="btn-secundario" onclick="renderizarBuscador()">Reintentar</button></div>`;
+                    contenedor.innerHTML = `
+                        <div class="mensaje-sistema">
+                            <h3 style="color:#ef4444;">Error de Conexión</h3>
+                            <p style="font-size:12px; margin: 10px 0; color: var(--text-muted);">No se pudo establecer conexión con la Base de Datos.</p>
+                            <div class="error-container">${error.message}</div>
+                            <button class="btn-secundario" style="margin-top:15px;" onclick="renderizarBuscador()">Reintentar</button>
+                        </div>`;
                 });
         }
 
